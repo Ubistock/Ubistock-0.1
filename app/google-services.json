@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "558121923147",
+    "firebase_url": "https://ubistock-default-rtdb.firebaseio.com",
+    "project_id": "ubistock",
+    "storage_bucket": "ubistock.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558121923147:android:84e6bd1afc24d9563113ce",
+        "android_client_info": {
+          "package_name": "com.example.proyectofinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqtrZAic3CG2_cMov0CHg_nN_pdz5iTrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
