@@ -1,6 +1,5 @@
 package com.example.proyectofinal
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -30,11 +29,12 @@ class RegisterActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this) { task ->
                         if (task.isSuccessful) {
+                            // Registro exitoso, regresa a la MainActivity
                             Toast.makeText(this, "Registro exitoso", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this, MainActivity::class.java))
                             finish()
                         } else {
-                            Toast.makeText(this, "Error en el registro: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                            val errorMsg = task.exception?.message ?: "Registro fallido"
+                            Toast.makeText(this, "Registro fallido: $errorMsg", Toast.LENGTH_SHORT).show()
                         }
                     }
             } else {

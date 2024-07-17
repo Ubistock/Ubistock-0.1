@@ -45,11 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         val registerTextView = findViewById<TextView>(R.id.crearCuentaTextView)
         registerTextView.setOnClickListener {
-            startActivity(Intent(this, Register::class.java))
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
-}
-
-class Register {
-
 }
