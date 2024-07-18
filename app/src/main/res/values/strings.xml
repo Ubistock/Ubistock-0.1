@@ -3,4 +3,6 @@
     <string name="logo_description">Logo de Ubistock</string>
     <string name="facebook_login">Iniciar sesión con Facebook</string>
     <string name="google_login">Iniciar sesión con Google</string>
+    <string name="default_web_client_id">1:558121923147:android:84e6bd1afc24d9563113ce</string>
+
 </resources>
