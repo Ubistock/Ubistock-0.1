@@ -1,8 +1,11 @@
 package com.example.proyectofinal.database
 
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
 data class Aula(
-    val idLab: Int,
-    val edificio: String,
-    val nombre: String,
-    val status: Int
+    var idLab: Int = 0,
+    var edificio: String = "",
+    var nombre: String = "",
+    var status: Int = 0
 )

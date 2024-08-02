@@ -21,7 +21,7 @@
             android:name=".Add_Propietario"
             android:exported="false" />
         <activity
-            android:name=".Add_Aula"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".Add_Puesto"
@@ -34,7 +34,7 @@
             android:exported="false" />
         <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Add_Aula"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
