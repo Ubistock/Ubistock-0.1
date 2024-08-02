@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_edificio_aula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Edificio" />
+
+    <EditText
+        android:id="@+id/et_nombre_aula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Aula" />
+
+    <EditText
+        android:id="@+id/et_status_aula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Status" />
+
+    <Button
+        android:id="@+id/btn_add_aula"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Aula" />
+</LinearLayout>
