@@ -30,11 +30,12 @@
             android:name=".Add_Categoria"
             android:exported="false" />
         <activity
-            android:name=".Menu_main"
-            android:exported="false" />
-        <activity android:name=".RegisterActivity" />
-        <activity
             android:name=".Add_Aula"
+            android:exported="false" />
+        <activity android:name=".RegisterActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".Menu_main"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
