@@ -2,8 +2,14 @@ package com.example.proyectofinal.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -63,6 +69,7 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             idHistorial INTEGER PRIMARY KEY AUTOINCREMENT,
             aula INTEGER,
             categoria INTEGER,
+            componente INTEGER,
             fecha TEXT,
             hora TEXT,
             status INTEGER,
@@ -83,6 +90,29 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
+    fun getAllHistorial(): List<Historial> {
+        val historialList = mutableListOf<Historial>()
+        val db = this.readableDatabase
+        val cursor: Cursor = db.rawQuery("SELECT * FROM Historial", null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val idHistorial = cursor.getInt(cursor.getColumnIndexOrThrow("idHistorial"))
+                val aula = cursor.getInt(cursor.getColumnIndexOrThrow("aula"))
+                val categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria"))
+                val componente = cursor.getInt(cursor.getColumnIndexOrThrow("componente"))
+                val fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"))
+                val hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"))
+                val status = cursor.getInt(cursor.getColumnIndexOrThrow("status"))
+
+                val historial = Historial(idHistorial, aula, categoria,componente, fecha, hora, status)
+                historialList.add(historial)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+        return historialList
+    }
     // Insertar una nueva categoría
     fun addCategoria(categoria: Categoria): Long {
         val db = writableDatabase
@@ -167,15 +197,34 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         cursor.close()
         return componentes
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getCurrentTime(): String {
+        val now = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+
+        // Formatea la hora en formato HH:mm:ss
+        return now.format(formatter)
+    }
+    fun getCurrentDate(): String {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1 // Los meses están basados en 0, así que sumamos 1
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        // Formatea la fecha en formato yyyy-MM-dd
+        return String.format("%04d-%02d-%02d", year, month, day)
+    }
 
     // Insertar un nuevo historial
+    @RequiresApi(Build.VERSION_CODES.O)
     fun addHistorial(historial: Historial): Long {
         val db = writableDatabase
         val values = ContentValues().apply {
             put("aula", historial.aula)
             put("categoria", historial.categoria)
-            put("fecha", historial.fecha)
-            put("hora", historial.hora)
+            put("componente", historial.componente)
+            put("fecha", getCurrentTime())
+            put("hora", getCurrentDate())
             put("status", historial.status)
         }
         return db.insert("Historial", null, values)
@@ -191,10 +240,11 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
                 val idHistorial = getInt(getColumnIndexOrThrow("idHistorial"))
                 val aula = getInt(getColumnIndexOrThrow("aula"))
                 val categoria = getInt(getColumnIndexOrThrow("categoria"))
+                val componente = getInt(getColumnIndexOrThrow("componente"))
                 val fecha = getString(getColumnIndexOrThrow("fecha"))
                 val hora = getString(getColumnIndexOrThrow("hora"))
                 val status = getInt(getColumnIndexOrThrow("status"))
-                historiales.add(Historial(idHistorial, aula, categoria, fecha, hora, status))
+                historiales.add(Historial(idHistorial, aula, categoria,componente, fecha, hora, status))
             }
         }
         cursor.close()
