@@ -7,8 +7,98 @@
     android:layout_height="match_parent"
     tools:context=".Menu_main">
 
-    
+    <!-- Barra de título -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="?attr/actionBarTheme"
+        app:title="Menú"
+        app:titleTextColor="@android:color/white"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <ImageView
+            android:id="@+id/menuImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:src="@drawable/logoprinci"
+            android:contentDescription="logo"
+            android:padding="8dp" />
+    </androidx.appcompat.widget.Toolbar>
 
+    <!-- Botón Historial -->
+    <Button
+        android:id="@+id/historialButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Historial"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="136dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Layout para los botones Añadir -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/historialButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <!-- Botón Añadir Aula -->
+        <Button
+            android:id="@+id/anadirAulaButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Añadir Aula"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/anadirCategoriaButton"
+            android:layout_margin="8dp"
+            app:layout_constraintWidth_percent="0.48"/>
+
+        <!-- Botón Añadir Categoría -->
+        <Button
+            android:id="@+id/anadirCategoriaButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Añadir Categoría"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/anadirAulaButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"
+            app:layout_constraintWidth_percent="0.48"/>
+
+        <!-- Botón Añadir Propietario -->
+        <Button
+            android:id="@+id/anadirPropietarioButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Añadir Propietario"
+            app:layout_constraintTop_toBottomOf="@id/anadirAulaButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/anadirPuestoButton"
+            android:layout_margin="8dp"
+            app:layout_constraintWidth_percent="0.48"/>
+
+        <!-- Botón Añadir Puesto -->
+        <Button
+            android:id="@+id/anadirPuestoButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Añadir Puesto"
+            app:layout_constraintTop_toBottomOf="@id/anadirCategoriaButton"
+            app:layout_constraintStart_toEndOf="@id/anadirPropietarioButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="8dp"
+            app:layout_constraintWidth_percent="0.48"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,13 @@ class Add_Aula : AppCompatActivity() {
         val etStatus = findViewById<EditText>(R.id.et_status_aula)
         val btnAddAula = findViewById<Button>(R.id.btn_add_aula)
 
+        val btnRegresar: Button = findViewById(R.id.btnRegresar)
+
+        // Configura el onClickListener para el botón
+        btnRegresar.setOnClickListener {
+            // Finaliza la actividad actual y regresa a la anterior
+            finish()
+        }
         // Configurar el listener del botón
         btnAddAula.setOnClickListener {
             val edificio = etEdificio.text.toString()
@@ -41,6 +48,7 @@ class Add_Aula : AppCompatActivity() {
             if (edificio.isNotEmpty() && nombre.isNotEmpty()) {
                 // Insertar en Firebase primero para obtener el ID
                 addAulaToFirebase(Aula(0, edificio, nombre, status))
+                Toast.makeText(this, "Aula agregada con exito.", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Por favor, completa todos los campos.", Toast.LENGTH_SHORT).show()
             }
