@@ -34,7 +34,13 @@ class Add_Categoria : AppCompatActivity() {
         val etNombre = findViewById<EditText>(R.id.et_nombre_categoria)
         val etStatus = findViewById<EditText>(R.id.et_status_categoria)
         val btnAddCategoria = findViewById<Button>(R.id.btn_add_categoria)
+        val btnRegresar: Button = findViewById(R.id.btnRegresar)
 
+        // Configura el onClickListener para el botón
+        btnRegresar.setOnClickListener {
+            // Finaliza la actividad actual y regresa a la anterior
+            finish()
+        }
         // Configurar el listener del botón
         btnAddCategoria.setOnClickListener {
             val nombre = etNombre.text.toString()
