@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
                             // Iniciar la siguiente actividad
                             // startActivity(Intent(this, NextActivity::class.java))
                             Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, Menu_main::class.java)
+                            startActivity(intent)
                         } else {
                             Toast.makeText(this, "Email no registrado, por favor registrese", Toast.LENGTH_SHORT).show()
                         }
@@ -94,6 +96,8 @@ class MainActivity : AppCompatActivity() {
                     // Sign-in successful
                     // startActivity(Intent(this, NextActivity::class.java))
                     Toast.makeText(this, "Inicio de sesión con Google exitoso", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, Menu_main::class.java)
+                    startActivity(intent)
                 } else {
                     // Sign-in failed
                     Toast.makeText(this, "Error en la autenticación con Firebase", Toast.LENGTH_SHORT).show()

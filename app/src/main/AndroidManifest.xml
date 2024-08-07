@@ -23,7 +23,7 @@
             android:name=".Add_Propietario"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Menu_main"
             android:exported="false" />
         <activity
             android:name=".Add_Puesto"
@@ -37,7 +37,7 @@
         <activity android:name=".RegisterActivity"
             android:exported="false"/>
         <activity
-            android:name=".Menu_main"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
