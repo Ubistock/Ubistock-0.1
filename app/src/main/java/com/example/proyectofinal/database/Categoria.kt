@@ -1,7 +1,10 @@
 package com.example.proyectofinal.database
 
+import com.google.firebase.database.IgnoreExtraProperties
+
+@IgnoreExtraProperties
 data class Categoria(
-    val idCategoria: Int,
-    val nombre: String,
-    val status: Int
+    var idCategoria: Int = 0,
+    var nombre: String = "",
+    var status: Int = 0
 )

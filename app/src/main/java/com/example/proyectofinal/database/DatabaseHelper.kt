@@ -15,8 +15,9 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
 
     companion object {
         private const val DATABASE_NAME = "miInventario.db"
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2  // Incrementa la versión
     }
+
 
     override fun onCreate(db: SQLiteDatabase) {
         // Crear tablas
@@ -74,7 +75,8 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
             hora TEXT,
             status INTEGER,
             FOREIGN KEY (aula) REFERENCES Aula(idLab),
-            FOREIGN KEY (categoria) REFERENCES Categoria(idCategoria)
+            FOREIGN KEY (categoria) REFERENCES Categoria(idCategoria),
+            FOREIGN KEY (componente) REFERENCES Componente(idComponente)
         )
     """)
     }
@@ -89,223 +91,5 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL("DROP TABLE IF EXISTS Puesto")
         onCreate(db)
     }
-
-    fun getAllHistorial(): List<Historial> {
-        val historialList = mutableListOf<Historial>()
-        val db = this.readableDatabase
-        val cursor: Cursor = db.rawQuery("SELECT * FROM Historial", null)
-
-        if (cursor.moveToFirst()) {
-            do {
-                val idHistorial = cursor.getInt(cursor.getColumnIndexOrThrow("idHistorial"))
-                val aula = cursor.getInt(cursor.getColumnIndexOrThrow("aula"))
-                val categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria"))
-                val componente = cursor.getInt(cursor.getColumnIndexOrThrow("componente"))
-                val fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"))
-                val hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"))
-                val status = cursor.getInt(cursor.getColumnIndexOrThrow("status"))
-
-                val historial = Historial(idHistorial, aula, categoria,componente, fecha, hora, status)
-                historialList.add(historial)
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        db.close()
-        return historialList
-    }
-    // Insertar una nueva categoría
-    fun addCategoria(categoria: Categoria): Long {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("nombre", categoria.nombre)
-            put("status", categoria.status)
-        }
-        return db.insert("Categoria", null, values)
-    }
-
-    // Obtener todas las categorías
-    fun getCategorias(): List<Categoria> {
-        val db = readableDatabase
-        val cursor = db.query("Categoria", null, null, null, null, null, null)
-        val categorias = mutableListOf<Categoria>()
-        with(cursor) {
-            while (moveToNext()) {
-                val idCategoria = getInt(getColumnIndexOrThrow("idCategoria"))
-                val nombre = getString(getColumnIndexOrThrow("nombre"))
-                val status = getInt(getColumnIndexOrThrow("status"))
-                categorias.add(Categoria(idCategoria, nombre, status))
-            }
-        }
-        cursor.close()
-        return categorias
-    }
-
-    // Métodos para Aula
-    fun addAula(aula: Aula): Long {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("edificio", aula.edificio)
-            put("nombre", aula.nombre)
-            put("status", aula.status)
-        }
-        return db.insert("Aula", null, values)
-    }
-
-    fun getAulas(): List<Aula> {
-        val db = readableDatabase
-        val cursor = db.query("Aula", null, null, null, null, null, null)
-        val aulas = mutableListOf<Aula>()
-        with(cursor) {
-            while (moveToNext()) {
-                val idLab = getInt(getColumnIndexOrThrow("idLab"))
-                val edificio = getString(getColumnIndexOrThrow("edificio"))
-                val nombre = getString(getColumnIndexOrThrow("nombre"))
-                val status = getInt(getColumnIndexOrThrow("status"))
-                aulas.add(Aula(idLab, edificio, nombre, status))
-            }
-        }
-        cursor.close()
-        return aulas
-    }
-    // Insertar un nuevo componente
-    fun addComponente(componente: Componente): Long {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("categoria", componente.categoria)
-            put("propi", componente.propi)
-            put("aula", componente.aula)
-            put("status", componente.status)
-        }
-        return db.insert("Componente", null, values)
-    }
-
-    // Obtener todos los componentes
-    fun getComponentes(): List<Componente> {
-        val db = readableDatabase
-        val cursor = db.query("Componente", null, null, null, null, null, null)
-        val componentes = mutableListOf<Componente>()
-        with(cursor) {
-            while (moveToNext()) {
-                val idComponente = getInt(getColumnIndexOrThrow("idComponente"))
-                val categoria = getInt(getColumnIndexOrThrow("categoria"))
-                val propi = getInt(getColumnIndexOrThrow("propi"))
-                val aula = getInt(getColumnIndexOrThrow("aula"))
-                val status = getInt(getColumnIndexOrThrow("status"))
-                componentes.add(Componente(idComponente, categoria, propi, aula, status))
-            }
-        }
-        cursor.close()
-        return componentes
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun getCurrentTime(): String {
-        val now = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
-
-        // Formatea la hora en formato HH:mm:ss
-        return now.format(formatter)
-    }
-    fun getCurrentDate(): String {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH) + 1 // Los meses están basados en 0, así que sumamos 1
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        // Formatea la fecha en formato yyyy-MM-dd
-        return String.format("%04d-%02d-%02d", year, month, day)
-    }
-
-    // Insertar un nuevo historial
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun addHistorial(historial: Historial): Long {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("aula", historial.aula)
-            put("categoria", historial.categoria)
-            put("componente", historial.componente)
-            put("fecha", getCurrentTime())
-            put("hora", getCurrentDate())
-            put("status", historial.status)
-        }
-        return db.insert("Historial", null, values)
-    }
-
-    // Obtener todos los historiales
-    fun getHistoriales(): List<Historial> {
-        val db = readableDatabase
-        val cursor = db.query("Historial", null, null, null, null, null, null)
-        val historiales = mutableListOf<Historial>()
-        with(cursor) {
-            while (moveToNext()) {
-                val idHistorial = getInt(getColumnIndexOrThrow("idHistorial"))
-                val aula = getInt(getColumnIndexOrThrow("aula"))
-                val categoria = getInt(getColumnIndexOrThrow("categoria"))
-                val componente = getInt(getColumnIndexOrThrow("componente"))
-                val fecha = getString(getColumnIndexOrThrow("fecha"))
-                val hora = getString(getColumnIndexOrThrow("hora"))
-                val status = getInt(getColumnIndexOrThrow("status"))
-                historiales.add(Historial(idHistorial, aula, categoria,componente, fecha, hora, status))
-            }
-        }
-        cursor.close()
-        return historiales
-    }
-
-    // Insertar un nuevo propietario
-    fun addPropietario(propietario: Propietario): Long {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("nombre", propietario.nombre)
-            put("puesto", propietario.puesto)
-            put("numero", propietario.numero)
-            put("status", propietario.status)
-        }
-        return db.insert("Propietario", null, values)
-    }
-
-    // Obtener todos los propietarios
-    fun getPropietarios(): List<Propietario> {
-        val db = readableDatabase
-        val cursor = db.query("Propietario", null, null, null, null, null, null)
-        val propietarios = mutableListOf<Propietario>()
-        with(cursor) {
-            while (moveToNext()) {
-                val idPropietario = getInt(getColumnIndexOrThrow("idPropietario"))
-                val nombre = getString(getColumnIndexOrThrow("nombre"))
-                val puesto = getInt(getColumnIndexOrThrow("puesto"))
-                val numero = getString(getColumnIndexOrThrow("numero"))
-                val status = getInt(getColumnIndexOrThrow("status"))
-                propietarios.add(Propietario(idPropietario, nombre, puesto, numero, status))
-            }
-        }
-        cursor.close()
-        return propietarios
-    }
-
-    // Insertar un nuevo puesto
-    fun addPuesto(puesto: Puesto): Long {
-        val db = writableDatabase
-        val values = ContentValues().apply {
-            put("puesto", puesto.puesto)
-            put("status", puesto.status)
-        }
-        return db.insert("Puesto", null, values)
-    }
-
-    // Obtener todos los puestos
-    fun getPuestos(): List<Puesto> {
-        val db = readableDatabase
-        val cursor = db.query("Puesto", null, null, null, null, null, null)
-        val puestos = mutableListOf<Puesto>()
-        with(cursor) {
-            while (moveToNext()) {
-                val idPuesto = getInt(getColumnIndexOrThrow("idPuesto"))
-                val puesto = getString(getColumnIndexOrThrow("puesto"))
-                val status = getInt(getColumnIndexOrThrow("status"))
-                puestos.add(Puesto(idPuesto, puesto, status))
-            }
-        }
-        cursor.close()
-        return puestos
-    }
+ 
 }
