@@ -2,6 +2,7 @@ package com.example.proyectofinal
 
 import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
@@ -87,10 +88,12 @@ class Add_Aula : AppCompatActivity() {
                 // Insertar en SQLite con el ID correcto
                 addAulaToSQLite(updatedAula)
             }.addOnFailureListener {
-                Toast.makeText(this, "Error al agregar el Aula a Firebase", Toast.LENGTH_SHORT).show()
+                Log.e("AddAulaActivity", "Error al agregar el Aula a Firebase", it)
+                Toast.makeText(this, "Error al agregar el Aula a Firebase: ${it.message}", Toast.LENGTH_SHORT).show()
             }
-        }.addOnFailureListener {
-            Toast.makeText(this, "Error al obtener el contador de Firebase", Toast.LENGTH_SHORT).show()
+        }.addOnFailureListener { exception ->
+            Log.e("AddAulaActivity", "Error al obtener el contador de Firebase", exception)
+            Toast.makeText(this, "Error al obtener el contador de Firebase: ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }
 }

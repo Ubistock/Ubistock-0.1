@@ -53,42 +53,4 @@ class Add_Categoria : AppCompatActivity() {
             }
         }
     }
-
-    private fun addCategoriaToSQLite(categoria: Categoria) {
-        val db = dbHelper.writableDatabase
-        val values = ContentValues().apply {
-            put("nombre", categoria.nombre)
-            put("status", categoria.status)
-        }
-        val newRowId = db.insert("Categoria", null, values)
-        db.close()
-
-        if (newRowId != -1L) {
-            Toast.makeText(this, "Categoría agregada a SQLite", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "Error al agregar la Categoría a SQLite", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun addCategoriaToFirebase(categoria: Categoria) {
-        firebaseCounterDb.child("categorias").get().addOnSuccessListener { snapshot ->
-            var newId = 1
-            if (snapshot.exists()) {
-                newId = snapshot.value.toString().toInt() + 1
-            }
-
-            val updatedCategoria = categoria.copy(idCategoria = newId)
-            val categoriaId = firebaseDb.child(newId.toString()).key ?: return@addOnSuccessListener
-            firebaseDb.child(categoriaId).setValue(updatedCategoria).addOnSuccessListener {
-                Toast.makeText(this, "Categoría agregada a Firebase", Toast.LENGTH_SHORT).show()
-                firebaseCounterDb.child("categorias").setValue(newId)
-                // Insertar en SQLite con el ID correcto
-                addCategoriaToSQLite(updatedCategoria)
-            }.addOnFailureListener {
-                Toast.makeText(this, "Error al agregar la Categoría a Firebase", Toast.LENGTH_SHORT).show()
-            }
-        }.addOnFailureListener {
-            Toast.makeText(this, "Error al obtener el contador de Firebase", Toast.LENGTH_SHORT).show()
-        }
-    }
 }
