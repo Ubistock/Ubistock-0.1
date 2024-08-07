@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,33 +9,24 @@
         android:id="@+id/et_nombre_categoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre de la Categoría" />
+        android:hint="Nombre de la categoría" />
 
     <EditText
         android:id="@+id/et_status_categoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Status" />
+        android:hint="Estado"
+        android:inputType="number" />
 
     <Button
         android:id="@+id/btn_add_categoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Agregar Categoría" />
-    <RelativeLayout
+
+    <Button
+        android:id="@+id/btnRegresar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
-
-        <Button
-            android:id="@+id/btnRegresar"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:text="Regresar"
-            android:backgroundTint="@color/black"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="86dp"/>
-    </RelativeLayout>
+        android:text="Regresar" />
 </LinearLayout>
