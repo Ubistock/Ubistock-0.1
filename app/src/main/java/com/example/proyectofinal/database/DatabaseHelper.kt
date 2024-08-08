@@ -7,9 +7,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.Build
 import androidx.annotation.RequiresApi
+import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -91,5 +94,54 @@ class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME
         db.execSQL("DROP TABLE IF EXISTS Puesto")
         onCreate(db)
     }
- 
+    //añadir historial
+    fun insertHistorial(aula: Int, categoria: Int, componente: Int, status: Int) {
+        val db = this.writableDatabase
+        val values = ContentValues()
+
+        val currentDateTime = Date()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val timeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+
+        values.put("aula", aula)
+        values.put("categoria", categoria)
+        values.put("componente", componente)
+        values.put("fecha", dateFormat.format(currentDateTime))
+        values.put("hora", timeFormat.format(currentDateTime))
+        values.put("status", status)
+
+        db.insert("Historial", null, values)
+        db.close()
+    }
+
+    fun getAllHistorial(): List<Historial> {
+        val historialList = mutableListOf<Historial>()
+        val db = this.readableDatabase
+        val cursor: Cursor
+
+        try {
+            cursor = db.query("Historial", null, null, null, null, null, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val idHistorial = cursor.getInt(cursor.getColumnIndexOrThrow("idHistorial"))
+                    val aula = cursor.getInt(cursor.getColumnIndexOrThrow("aula"))
+                    val categoria = cursor.getInt(cursor.getColumnIndexOrThrow("categoria"))
+                    val componente = cursor.getInt(cursor.getColumnIndexOrThrow("componente"))
+                    val fecha = cursor.getString(cursor.getColumnIndexOrThrow("fecha"))
+                    val hora = cursor.getString(cursor.getColumnIndexOrThrow("hora"))
+                    val status = cursor.getInt(cursor.getColumnIndexOrThrow("status"))
+
+                    val historial = Historial(idHistorial, aula, categoria, componente, fecha, hora, status)
+                    historialList.add(historial)
+                } while (cursor.moveToNext())
+            }
+            cursor.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            db.close()
+        }
+
+        return historialList
+    }
 }
