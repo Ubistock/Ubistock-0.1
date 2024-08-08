@@ -1,43 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textViewAula"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Aula"/>
-
-    <TextView
-        android:id="@+id/textViewCategoria"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Categoria"/>
-
-    <TextView
-        android:id="@+id/textViewComponente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Componente"/>
-
-    <TextView
-        android:id="@+id/textViewFecha"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fecha"/>
-
-    <TextView
-        android:id="@+id/textViewHora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hora"/>
-
-    <TextView
-        android:id="@+id/textViewStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Status"/>
 </LinearLayout>
