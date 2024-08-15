@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Menu_main">
 
-    <!-- Barra de título -->
+    <!-- Barra de título con imagen mejorada -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -18,17 +18,27 @@
         app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="4dp">
 
         <ImageView
             android:id="@+id/menuImageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="end"
+            android:layout_marginEnd="8dp"
             android:src="@drawable/logoprinci"
             android:contentDescription="logo"
             android:padding="8dp" />
     </androidx.appcompat.widget.Toolbar>
+
+    <!-- Espacio debajo de la barra de título -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="16dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Botón Historial -->
     <Button
@@ -36,11 +46,17 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Historial"
+        android:textSize="18sp"
+        android:textColor="?attr/colorOnPrimary"
+        android:backgroundTint="?attr/colorPrimaryVariant"
+        android:elevation="2dp"
+        android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="136dp"
-        android:layout_marginBottom="8dp" />
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginHorizontal="24dp" />
 
     <!-- Layout para los botones Añadir -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,8 +65,9 @@
         app:layout_constraintTop_toBottomOf="@id/historialButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp">
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
+        android:layout_marginHorizontal="24dp">
 
         <!-- Botón Añadir Aula -->
         <Button
@@ -58,6 +75,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Añadir Aula"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnPrimary"
+            android:backgroundTint="?attr/colorSecondary"
+            android:elevation="2dp"
+            android:padding="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/anadirCategoriaButton"
@@ -70,6 +92,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Añadir Categoría"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnPrimary"
+            android:backgroundTint="?attr/colorSecondary"
+            android:elevation="2dp"
+            android:padding="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/anadirAulaButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,6 +109,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Añadir Propietario"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnPrimary"
+            android:backgroundTint="?attr/colorSecondary"
+            android:elevation="2dp"
+            android:padding="12dp"
             app:layout_constraintTop_toBottomOf="@id/anadirAulaButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/anadirPuestoButton"
@@ -94,6 +126,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Añadir Puesto"
+            android:textSize="16sp"
+            android:textColor="?attr/colorOnPrimary"
+            android:backgroundTint="?attr/colorSecondary"
+            android:elevation="2dp"
+            android:padding="12dp"
             app:layout_constraintTop_toBottomOf="@id/anadirCategoriaButton"
             app:layout_constraintStart_toEndOf="@id/anadirPropietarioButton"
             app:layout_constraintEnd_toEndOf="parent"

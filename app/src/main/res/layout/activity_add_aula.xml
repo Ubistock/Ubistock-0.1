@@ -3,45 +3,190 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/white">
 
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Aula"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- EditText for Edificio -->
     <EditText
         android:id="@+id/et_edificio_aula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Edificio" />
+        android:hint="Edificio"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
 
+    <!-- EditText for Nombre del Aula -->
     <EditText
         android:id="@+id/et_nombre_aula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Aula" />
+        android:hint="Nombre del Aula"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
 
+    <!-- EditText for Status -->
     <EditText
         android:id="@+id/et_status_aula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Status" />
+        android:hint="Status"
+        android:padding="10dp"
+        android:layout_marginBottom="24dp" />
 
+    <!-- Button to add Aula -->
     <Button
         android:id="@+id/btn_add_aula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar Aula" />
-    <RelativeLayout
+        android:text="Agregar Aula"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/black"
+        android:layout_marginBottom="16dp" />
+
+    <!-- EditText for Aula ID (for search) -->
+    <EditText
+        android:id="@+id/et_aula_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:hint="ID de Aula"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+        <!-- Button to search Aula by ID -->
         <Button
-            android:id="@+id/btnRegresar"
-            android:layout_width="240dp"
+            android:id="@+id/btn_buscar_aula"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Regresar"
+            android:text="Buscar por ID"
             android:backgroundTint="@color/black"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="86dp"/>
-    </RelativeLayout>
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Button to show all Aulas -->
+        <Button
+            android:id="@+id/btn_mostrar_aulas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mostrar Todas las Aulas"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
+            android:layout_marginBottom="16dp" />
+    </LinearLayout>
+    <!-- ScrollView for Aula details -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="24dp">
+
+        <!-- TableLayout to display Aula details -->
+        <TableLayout
+            android:id="@+id/tbl_aula_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <!-- Table Row for Headers -->
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ID"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Edificio"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Status"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+            </TableRow>
+
+            <!-- Example Row for Aula details, this will be dynamically populated -->
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="A"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="101"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+            </TableRow>
+
+            <!-- Add more rows here dynamically -->
+
+        </TableLayout>
+    </ScrollView>
+
+    <!-- Button to go back -->
+    <Button
+        android:id="@+id/btnRegresar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Regresar"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white" />
+
 </LinearLayout>
