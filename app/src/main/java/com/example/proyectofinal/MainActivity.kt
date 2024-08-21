@@ -1,18 +1,28 @@
 package com.example.proyectofinal
 
+import FirebaseWorker
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.proyectofinal.database.*
-import com.example.proyectofinal.database.DatabaseHelper
-import com.example.proyectofinal.database.Historial
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -29,80 +39,82 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private lateinit var firebaseWorkRequest: WorkRequest
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Verifica si las notificaciones están habilitadas y, si no, muestra la interfaz de configuración
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (!NotificationManagerCompat.from(this).areNotificationsEnabled()) {
+                val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+                intent.putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                startActivity(intent)
+            }
+        }
+
+        // Initialize WorkRequest
+        firebaseWorkRequest = OneTimeWorkRequest.Builder(FirebaseWorker::class.java).build()
+        WorkManager.getInstance(this).enqueue(firebaseWorkRequest)
+
+        // Initialize FirebaseAuth
         auth = FirebaseAuth.getInstance()
 
+        // Setup UI elements
         val emailEditText = findViewById<EditText>(R.id.usuarioEditText)
         val passwordEditText = findViewById<EditText>(R.id.contrasenaEditText)
         val loginButton = findViewById<Button>(R.id.iniciarSesionButton)
+        val registerTextView = findViewById<TextView>(R.id.crearCuentaTextView)
+        val googleLoginButton = findViewById<ImageButton>(R.id.googleLoginButton)
 
+        // Set up login button listener
         loginButton.setOnClickListener {
-            val email = emailEditText.text.toString()
-            val password = passwordEditText.text.toString()
+            val email = emailEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-                        if (task.isSuccessful) {
-                            Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
-
-                            // Sincronización de datos desde Firebase a SQLite
-                            syncDataFromFirebaseToSQLite("Aula", "Aula", ::mapAulaToContentValues)
-                            syncDataFromFirebaseToSQLite("Categoria", "Categoria", ::mapCategoriaToContentValues)
-                            syncDataFromFirebaseToSQLite("Componente", "Componente", ::mapComponenteToContentValues)
-                            syncDataFromFirebaseToSQLite("Propietario", "Propietario", ::mapPropietarioToContentValues)
-                            syncDataFromFirebaseToSQLite("Puesto", "Puesto", ::mapPuestoToContentValues)
-                            syncDataFromFirebaseToSQLite("Historial", "Historial", ::mapHistorialToContentValues)
-
-                            // Iniciar la siguiente actividad
-                            val intent = Intent(this, Menu_main::class.java)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, "Email no registrado, por favor registrese", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                loginUser(email, password)
             } else {
                 Toast.makeText(this, "Por favor, llene todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
 
-        val registerTextView = findViewById<TextView>(R.id.crearCuentaTextView)
+        // Set up register text listener
         registerTextView.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
 
-        // Configuración del inicio de sesión de Google
+        // Configure Google Sign-In options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
+        // Initialize Google Sign-In client
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        findViewById<ImageButton>(R.id.googleLoginButton).setOnClickListener {
+        // Set up Google login button listener
+        googleLoginButton.setOnClickListener {
             val signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent, RC_SIGN_IN)
         }
     }
 
-    // Manejo del resultado del inicio de sesión
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                // Google Sign-In failed
-                Toast.makeText(this, "Error al iniciar sesión con Google", Toast.LENGTH_SHORT).show()
+    // Firebase Authentication Methods
+    private fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, Menu_main::class.java))
+                } else {
+                    Toast.makeText(this, "Email no registrado, por favor registrese", Toast.LENGTH_SHORT).show()
+                }
             }
-        }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Error: ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
     }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
@@ -110,96 +122,129 @@ class MainActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign-in successful
-                    // startActivity(Intent(this, NextActivity::class.java))
                     Toast.makeText(this, "Inicio de sesión con Google exitoso", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, Menu_main::class.java)
-                    startActivity(intent)
+                    startActivity(Intent(this, Menu_main::class.java))
                 } else {
-                    // Sign-in failed
                     Toast.makeText(this, "Error en la autenticación con Firebase", Toast.LENGTH_SHORT).show()
                 }
             }
+            .addOnFailureListener { exception ->
+                Toast.makeText(this, "Error: ${exception.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
     }
-    private inline fun <reified T> syncDataFromFirebaseToSQLite(
-        firebasePath: String,
-        tableName: String,
-        crossinline mapToContentValues: (T) -> ContentValues
-    ) {
-        val databaseReference = FirebaseDatabase.getInstance().getReference(firebasePath)
-        val databaseHelper = DatabaseHelper(this)
 
-        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)
+                account?.idToken?.let { firebaseAuthWithGoogle(it) }
+            } catch (e: ApiException) {
+                Toast.makeText(this, "Error al iniciar sesión con Google: ${e.localizedMessage}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Firebase Database Methods
+    private fun getComponentIdFromRFID(rfid: String, callback: (String?) -> Unit) {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("RFID")
+        databaseReference.child(rfid).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (snapshot in dataSnapshot.children) {
-                    val item = snapshot.getValue(T::class.java)
-                    if (item != null) {
-                        val values = mapToContentValues(item)
-                        databaseHelper.writableDatabase.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE)
-                    }
-                }
+                val componentId = dataSnapshot.getValue(String::class.java)
+                callback(componentId)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(this@MainActivity, "Error al sincronizar $tableName", Toast.LENGTH_SHORT).show()
+                Log.e("DatabaseError", "Error: ${databaseError.message}")
+                callback(null)
             }
         })
     }
-    private fun mapAulaToContentValues(aula: Aula): ContentValues {
-        return ContentValues().apply {
-            put("idLab", aula.idLab)
-            put("edificio", aula.edificio)
-            put("nombre", aula.nombre)
-            put("status", aula.status)
+
+    private fun getComponenteByIdFirebase(id: String, callback: (Componente?) -> Unit) {
+        val databaseReference = FirebaseDatabase.getInstance().getReference("componentes")
+        databaseReference.child(id).addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val componente = dataSnapshot.getValue(Componente::class.java)
+                callback(componente)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("DatabaseError", "Error: ${databaseError.message}")
+                callback(null)
+            }
+        })
+    }
+
+    private fun onRFIDDetected(rfid: String) {
+        getComponentIdFromRFID(rfid) { componentId ->
+            if (componentId != null) {
+                getComponenteByIdFirebase(componentId) { componente ->
+                    if (componente != null) {
+                        val currentTimeMillis = System.currentTimeMillis()
+                        val fecha = android.text.format.DateFormat.format("yyyy-MM-dd", currentTimeMillis).toString()
+                        val hora = android.text.format.DateFormat.format("HH:mm:ss", currentTimeMillis).toString()
+
+                        val historial = Historial(
+                            aula = componente.aula,
+                            categoria = componente.categoria,
+                            componente = componente.idComponente,
+                            fecha = fecha,
+                            hora = hora,
+                            status = componente.status
+                        )
+
+                        val databaseReference = FirebaseDatabase.getInstance().getReference("Historial")
+                        val newHistorialRef = databaseReference.push()
+                        newHistorialRef.setValue(historial)
+                            .addOnSuccessListener {
+                                Log.d("Historial", "Historial registrado correctamente en Firebase")
+                                Toast.makeText(this, "Componente detectado: ${componente.idComponente}", Toast.LENGTH_SHORT).show()
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.e("Historial", "Error al registrar el historial en Firebase: ${exception.message}")
+                                Toast.makeText(this, "Componente detectado error al registrar: ${componente.idComponente}", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
+                        Log.e("ComponenteError", "Componente no encontrado en la base de datos.")
+                        Toast.makeText(this, "Componente no encontrado", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                Log.e("RFIDError", "RFID no encontrado en la base de datos.")
+                Toast.makeText(this, "RFID no encontrado en la base de datos", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
-    private fun mapCategoriaToContentValues(categoria: Categoria): ContentValues {
-        return ContentValues().apply {
-            put("idCategoria", categoria.idCategoria)
-            put("nombre", categoria.nombre)
-            put("status", categoria.status)
-        }
+    fun simulateRFIDDetection(rfid: String) {
+        onRFIDDetected(rfid)
     }
 
-    private fun mapComponenteToContentValues(componente: Componente): ContentValues {
-        return ContentValues().apply {
-            put("idComponente", componente.idComponente)
-            put("categoria", componente.categoria)
-            put("propi", componente.propi)
-            put("aula", componente.aula)
-            put("status", componente.status)
+    // Notification Methods
+    private fun sendNotification(cardId: String) {
+        val notificationManager =
+            applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "RFID_CHANNEL",
+                "RFID Notifications",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
         }
+
+        val notificationBuilder = NotificationCompat.Builder(this, "RFID_CHANNEL")
+            .setSmallIcon(android.R.drawable.ic_notification_overlay) // Usa un ícono predeterminado para pruebas
+            .setContentTitle("RFID Detected")
+            .setContentText("RFID card ID: $cardId")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        notificationManager.notify(1, notificationBuilder.build())
     }
 
-    private fun mapPropietarioToContentValues(propietario: Propietario): ContentValues {
-        return ContentValues().apply {
-            put("idPropietario", propietario.idPropietario)
-            put("nombre", propietario.nombre)
-            put("puesto", propietario.puesto)
-            put("numero", propietario.numero)
-            put("status", propietario.status)
-        }
-    }
-
-    private fun mapPuestoToContentValues(puesto: Puesto): ContentValues {
-        return ContentValues().apply {
-            put("idRango", puesto.idRango)
-            put("puesto", puesto.puesto)
-            put("status", puesto.status)
-        }
-    }
-    private fun mapHistorialToContentValues(historial: Historial): ContentValues {
-        return ContentValues().apply {
-            put("idHistorial", historial.idHistorial)
-            put("aula", historial.aula)
-            put("categoria", historial.categoria)
-            put("componente", historial.componente)
-            put("fecha", historial.fecha)
-            put("hora", historial.hora)
-            put("status", historial.status)
-        }
-    }
     companion object {
         private const val RC_SIGN_IN = 9001
     }

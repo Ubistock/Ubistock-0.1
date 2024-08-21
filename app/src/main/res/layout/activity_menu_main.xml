@@ -5,137 +5,269 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fondo"
     tools:context=".Menu_main">
 
-    <!-- Barra de título con imagen mejorada -->
+    <!-- Enhanced Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:theme="?attr/actionBarTheme"
-        app:title="Menú"
+        android:background="@color/gray_primary"
         app:titleTextColor="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:elevation="4dp">
+        android:elevation="4dp" >
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UBISTOCK"
+            android:textColor="@android:color/white"
+            android:textSize="25sp"
+            android:layout_gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:gravity="center"/>
 
         <ImageView
             android:id="@+id/menuImageView"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_gravity="end"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/logoprinci"
-            android:contentDescription="logo"
-            android:padding="8dp" />
+            android:src="@drawable/ubistock_logo"
+            android:contentDescription="logo"  />
+
     </androidx.appcompat.widget.Toolbar>
 
-    <!-- Espacio debajo de la barra de título -->
-    <View
+    <!-- ScrollView for content -->
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="16dp"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Botón Historial -->
-    <Button
-        android:id="@+id/historialButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Historial"
-        android:textSize="18sp"
-        android:textColor="?attr/colorOnPrimary"
-        android:backgroundTint="?attr/colorPrimaryVariant"
-        android:elevation="2dp"
+        android:layout_height="0dp"
         android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginHorizontal="24dp" />
+        app:layout_constraintVertical_bias="1.0">
 
-    <!-- Layout para los botones Añadir -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/historialButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginHorizontal="24dp">
-
-        <!-- Botón Añadir Aula -->
-        <Button
-            android:id="@+id/anadirAulaButton"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Añadir Aula"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:backgroundTint="?attr/colorSecondary"
-            android:elevation="2dp"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/anadirCategoriaButton"
-            android:layout_margin="8dp"
-            app:layout_constraintWidth_percent="0.48"/>
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-        <!-- Botón Añadir Categoría -->
-        <Button
-            android:id="@+id/anadirCategoriaButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Añadir Categoría"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:backgroundTint="?attr/colorSecondary"
-            android:elevation="2dp"
-            android:padding="12dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/anadirAulaButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="8dp"
-            app:layout_constraintWidth_percent="0.48"/>
+            <!-- Historial Button wrapped in CardView with ImageView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:cardBackgroundColor="@color/blue_dark_background"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
-        <!-- Botón Añadir Propietario -->
-        <Button
-            android:id="@+id/anadirPropietarioButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Añadir Propietario"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:backgroundTint="?attr/colorSecondary"
-            android:elevation="2dp"
-            android:padding="12dp"
-            app:layout_constraintTop_toBottomOf="@id/anadirAulaButton"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/anadirPuestoButton"
-            android:layout_margin="8dp"
-            app:layout_constraintWidth_percent="0.48"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-        <!-- Botón Añadir Puesto -->
-        <Button
-            android:id="@+id/anadirPuestoButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Añadir Puesto"
-            android:textSize="16sp"
-            android:textColor="?attr/colorOnPrimary"
-            android:backgroundTint="?attr/colorSecondary"
-            android:elevation="2dp"
-            android:padding="12dp"
-            app:layout_constraintTop_toBottomOf="@id/anadirCategoriaButton"
-            app:layout_constraintStart_toEndOf="@id/anadirPropietarioButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="8dp"
-            app:layout_constraintWidth_percent="0.48"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_historial"
+                        android:contentDescription="Historial Icon"
+                        android:layout_marginEnd="0dp"/>
+
+                    <Button
+                        android:id="@+id/historialButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="Historial"
+                        android:textColor="@color/blue_text"
+                        android:textSize="18sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+            <!-- Historial Button wrapped in CardView with ImageView -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:cardBackgroundColor="@color/blue_dark_background"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_componente"
+                        android:contentDescription="Historial Icon"
+                        android:layout_marginEnd="0dp"/>
+
+                    <Button
+                        android:id="@+id/componenteButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="Añadir Componente"
+                        android:textColor="@color/blue_text"
+                        android:textSize="18sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Layout for Añadir Buttons with ImageView before Button -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:cardBackgroundColor="@color/blue_f_light"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_aula"
+                        android:contentDescription="Aula Icon"
+                        android:layout_marginEnd="0dp"/>
+
+                    <Button
+                        android:id="@+id/anadirAulaButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="Añadir Aula"
+                        android:textColor="@color/blue_text"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Repeat for other buttons -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:cardBackgroundColor="@color/blue_f_light"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_categoria"
+                        android:contentDescription="Categoría Icon"
+                        android:layout_marginEnd="0dp"/>
+
+                    <Button
+                        android:id="@+id/anadirCategoriaButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="Añadir Categoría"
+                        android:textColor="@color/blue_text"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:cardBackgroundColor="@color/blue_light"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_propietario"
+                        android:contentDescription="Propietario Icon"
+                        android:layout_marginEnd="0dp"/>
+
+                    <Button
+                        android:id="@+id/anadirPropietarioButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="Añadir Propietario"
+                        android:textColor="@color/blue_text"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                app:cardBackgroundColor="@color/blue_light"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginStart="16dp"
+                        android:src="@drawable/ic_puesto"
+                        android:contentDescription="Puesto Icon"
+                        android:layout_marginEnd="0dp"/>
+
+                    <Button
+                        android:id="@+id/anadirPuestoButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="Añadir Puesto"
+                        android:textColor="@color/blue_text"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

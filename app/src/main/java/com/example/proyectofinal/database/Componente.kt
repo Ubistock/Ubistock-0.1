@@ -1,9 +1,9 @@
 package com.example.proyectofinal.database
 
 data class Componente(
-    val idComponente: Int,
-    val categoria: Int,  // Referencia al idCategoria de Categoria
-    val propi: Int,      // Referencia al idPropietario de Propietario
-    val aula: Int,       // Referencia al idLab de Aula
-    val status: Int
+    val idComponente: String="",
+    val categoria: Int=0,  // Referencia al idCategoria de Categoria
+    val propi: Int=0,      // Referencia al idPropietario de Propietario
+    val aula: Int=0,       // Referencia al idLab de Aula
+    val status: Int=0
 )

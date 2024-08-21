@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -7,98 +7,117 @@
 
     <!-- Title TextView -->
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/tv_title_componente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar Aula"
+        android:text="Agregar Componente"
         android:textSize="24sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="@color/blue_dark_background"
         android:layout_marginBottom="24dp" />
 
-    <!-- EditText for Edificio -->
+    <!-- EditText for ID del Componente -->
     <EditText
-        android:id="@+id/et_edificio_aula"
+        android:id="@+id/et_id_componente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Edificio"
+        android:hint="Pase el componente por el modulo"
         android:padding="10dp"
         android:layout_marginBottom="12dp" />
 
-    <!-- EditText for Nombre del Aula -->
-    <EditText
-        android:id="@+id/et_nombre_aula"
+    <!-- Spinner for Categoría -->
+    <Spinner
+        android:id="@+id/spinner_categoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Aula"
-        android:padding="10dp"
         android:layout_marginBottom="12dp" />
 
-    <!-- EditText for Status -->
-    <EditText
-        android:id="@+id/et_status_aula"
+    <!-- Spinner for Aula -->
+    <Spinner
+        android:id="@+id/spinner_aula"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Status"
-        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Spinner for Propietario -->
+    <Spinner
+        android:id="@+id/spinner_propi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="24dp" />
 
-    <!-- Button to add Aula -->
+    <!-- EditText for Estado -->
+    <EditText
+        android:id="@+id/et_status_componente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Estado"
+        android:inputType="number"
+        android:padding="10dp"
+        android:layout_marginBottom="24dp" />
     <Button
-        android:id="@+id/btn_add_aula"
+        android:id="@+id/btn_obtener_rfid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar Aula"
-        android:textColor="@color/blue_text"
-        android:backgroundTint="@color/blue_dark_background"
+        android:text="Obtener componente"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue_primary"
+        android:layout_marginBottom="16dp" />
+    <Button
+        android:id="@+id/btn_add_componente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Componente"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue_primary"
         android:layout_marginBottom="16dp" />
 
-    <!-- EditText for Aula ID (for search) -->
+    <!-- EditText for Componente ID (for search) -->
     <EditText
-        android:id="@+id/et_aula_id"
+        android:id="@+id/et_componente_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="ID de Aula"
+        android:hint="ID del Componente"
         android:padding="10dp"
         android:layout_marginBottom="16dp" />
 
+    <!-- Horizontal LinearLayout for buttons -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        <!-- Button to search Aula by ID -->
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="16dp">
+
+        <!-- Button to search Componente by ID -->
         <Button
-            android:id="@+id/btn_buscar_aula"
+            android:id="@+id/btn_buscar_componente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Buscar por ID"
-            android:backgroundTint="@color/blue_dark_background"
-            android:textColor="@color/blue_text"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp" />
+            android:backgroundTint="@color/blue_primary"
+            android:textColor="@color/white"
+            android:layout_marginEnd="16dp" />
 
-        <!-- Button to show all Aulas -->
+        <!-- Button to show all Componentes -->
         <Button
-            android:id="@+id/btn_mostrar_aulas"
+            android:id="@+id/btn_mostrar_componentes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mostrar Todas las Aulas"
-            android:backgroundTint="@color/blue_dark_background"
-            android:textColor="@color/blue_text"
-            android:layout_marginBottom="16dp" />
+            android:text="Mostrar Todos los Componentes"
+            android:backgroundTint="@color/blue_primary"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-    <!-- ScrollView for Aula details -->
+    <!-- ScrollView for Componente details -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginBottom="24dp">
 
-        <!-- TableLayout to display Aula details -->
+        <!-- TableLayout to display Componente details -->
         <TableLayout
-            android:id="@+id/tbl_aula_details"
+            android:id="@+id/tbl_componente_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp">
@@ -112,41 +131,28 @@
                     android:text="ID"
                     android:textStyle="bold"
                     android:padding="8dp"
-                    android:background="@color/gray_primary"
-                    android:textColor="@color/blue_text" />
+                    android:background="@color/gray" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Edificio"
+                    android:text="Categoría"
                     android:textStyle="bold"
                     android:padding="8dp"
-                    android:background="@color/gray_primary"
-                    android:textColor="@color/blue_text" />
+                    android:background="@color/gray" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nombre"
+                    android:text="Estado"
                     android:textStyle="bold"
                     android:padding="8dp"
-                    android:background="@color/gray_primary"
-                    android:textColor="@color/blue_text" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Status"
-                    android:textStyle="bold"
-                    android:padding="8dp"
-                    android:background="@color/gray_primary"
-                    android:textColor="@color/blue_text" />
+                    android:background="@color/gray" />
             </TableRow>
 
-            <!-- Example Row for Aula details, this will be dynamically populated -->
+            <!-- Example Row for Componente details, this will be dynamically populated -->
             <TableRow>
                 <TextView
                     android:layout_width="0dp"
@@ -160,15 +166,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="A"
-                    android:padding="8dp"
-                    android:background="@color/white" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="101"
+                    android:text="Componente A"
                     android:padding="8dp"
                     android:background="@color/white" />
 
@@ -192,7 +190,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Regresar"
-        android:backgroundTint="@color/blue_dark_background"
-        android:textColor="@color/blue_text" />
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white" />
 
 </LinearLayout>

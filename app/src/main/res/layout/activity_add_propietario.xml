@@ -1,52 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:id="@+id/main">
+    android:background="@color/white">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/tv_title_propietario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Propietario"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- EditText for Nombre del Propietario -->
     <EditText
         android:id="@+id/et_nombre_propietario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Propietario" />
-
+        android:hint="Nombre del Propietario"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
     <EditText
-        android:id="@+id/et_puesto_propietario"
+        android:id="@+id/et_puesto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Puesto" />
+        android:hint="Nombre del puesto"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
 
+    <!-- EditText for Número -->
     <EditText
         android:id="@+id/et_numero_propietario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Número" />
+        android:hint="Número"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
 
+    <!-- EditText for Status -->
     <EditText
         android:id="@+id/et_status_propietario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Status" />
+        android:hint="Status"
+        android:padding="10dp"
+        android:layout_marginBottom="24dp" />
 
+    <!-- Button to add Propietario -->
     <Button
         android:id="@+id/btn_add_propietario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Agregar Propietario" />
-    <RelativeLayout
+        android:text="Agregar Propietario"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/blue_primary"
+        android:layout_marginBottom="16dp" />
+
+    <!-- EditText for Propietario ID (for search) -->
+    <EditText
+        android:id="@+id/et_propietario_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:hint="ID del Propietario"
+        android:padding="10dp"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Horizontal LinearLayout for buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal">
+
+        <!-- Button to search Propietario by ID -->
         <Button
-            android:id="@+id/btnRegresar"
-            android:layout_width="240dp"
+            android:id="@+id/btn_buscar_propietario"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Regresar"
-            android:backgroundTint="@color/black"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="86dp"/>
-    </RelativeLayout>
+            android:text="Buscar por ID"
+            android:backgroundTint="@color/blue_primary"
+            android:textColor="@color/white"
+            android:layout_marginEnd="16dp" />
+
+        <!-- Button to show all Propietarios -->
+        <Button
+            android:id="@+id/btn_mostrar_propietarios"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mostrar Todos los Propietarios"
+            android:backgroundTint="@color/blue_primary"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+    <!-- ScrollView for Propietario details -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="24dp">
+
+        <!-- TableLayout to display Propietario details -->
+        <TableLayout
+            android:id="@+id/tbl_propietario_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <!-- Table Row for Headers -->
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ID"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nombre"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Puesto"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Número"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Status"
+                    android:textStyle="bold"
+                    android:padding="8dp"
+                    android:background="@color/gray" />
+            </TableRow>
+
+            <!-- Example Row for Propietario details, this will be dynamically populated -->
+            <TableRow>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Juan Pérez"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jefe"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="123456789"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Activo"
+                    android:padding="8dp"
+                    android:background="@color/white" />
+            </TableRow>
+
+            <!-- Add more rows here dynamically -->
+
+        </TableLayout>
+    </ScrollView>
+
+    <!-- Button to go back -->
+    <Button
+        android:id="@+id/btnRegresar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Regresar"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/white" />
+
 </LinearLayout>

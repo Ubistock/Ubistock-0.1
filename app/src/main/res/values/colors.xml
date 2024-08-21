@@ -2,6 +2,41 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="primary">#009688</color>
+    <color name="primary">#003366</color> <!-- Un azul oscuro -->
     <color name="gray">#5C5858</color>
+
+    <!-- Primary Palette -->
+    <color name="primaryColor">#2196F3</color> <!-- Azul brillante -->
+    <color name="primaryDarkColor">#1976D2</color> <!-- Azul más oscuro -->
+    <color name="onPrimaryColor">#FFFFFF</color> <!-- Blanco -->
+
+    <!-- Secondary Palette -->
+    <color name="secondaryColor">#03A9F4</color> <!-- Azul claro -->
+    <color name="secondaryDarkColor">#0288D1</color> <!-- Azul más oscuro -->
+    <color name="onSecondaryColor">#000000</color> <!-- Negro -->
+
+    <!-- Tertiary Palette -->
+    <color name="tertiaryColor">#64B5F6</color> <!-- Azul suave -->
+    <color name="tertiaryDarkColor">#42A5F5</color> <!-- Azul más fuerte -->
+    <color name="onTertiaryColor">#000000</color> <!-- Negro -->
+
+    <!-- Surface Palette -->
+    <color name="surfaceColor">#FFFFFF</color> <!-- Blanco -->
+    <color name="onSurfaceColor">#000000</color> <!-- Negro -->
+
+    <!-- Background Palette -->
+    <color name="backgroundColor">#E3F2FD</color> <!-- Azul muy claro -->
+    <color name="onBackgroundColor">#000000</color> <!-- Negro -->
+
+    <!-- Error Palette -->
+    <color name="errorColor">#B00020</color> <!-- Rojo de error -->
+    <color name="onErrorColor">#FFFFFF</color> <!-- Blanco -->
+    <color name="blue_primary">#0F2B67</color>
+    <color name="gray_primary">#5F697E</color>
+    <color name="blue_light">#0066CC</color>
+    <color name="blue_f_light">#6391BF</color>
+    <color name="blue_background">#E3F2FD</color>
+    <color name="blue_text">#FFFFFF</color>
+    <color name="blue_dark_background">#222C67</color>
+
 </resources>

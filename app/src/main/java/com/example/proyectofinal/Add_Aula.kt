@@ -35,6 +35,8 @@ class Add_Aula : AppCompatActivity() {
         firebaseDb = FirebaseDatabase.getInstance().getReference("aulas")
         firebaseCounterDb = FirebaseDatabase.getInstance().getReference("counter")
 
+        //Mostrar todas las aulas
+        mostrarTodasLasAulas()
         // Referencias a los componentes de la UI
         val etEdificio = findViewById<EditText>(R.id.et_edificio_aula)
         val etNombre = findViewById<EditText>(et_nombre_aula)
@@ -71,11 +73,12 @@ class Add_Aula : AppCompatActivity() {
         btnBuscarAula.setOnClickListener {
             val aulaId = etAulaId.text.toString().toIntOrNull()
             if (aulaId != null) {
-                val aula = buscarAulaPorId(aulaId)
-                if (aula != null) {
-                    mostrarDetallesAula(listOf(aula))
-                } else {
-                    Toast.makeText(this, "Aula no encontrada", Toast.LENGTH_SHORT).show()
+                buscarAulaPorId(aulaId) { aula ->
+                    if (aula != null) {
+                        mostrarDetallesAulaID(aula)
+                    } else {
+                        Toast.makeText(this, "Aula no encontrada", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } else {
                 Toast.makeText(this, "Por favor, ingrese un ID válido", Toast.LENGTH_SHORT).show()
@@ -84,21 +87,28 @@ class Add_Aula : AppCompatActivity() {
 
         // Configurar el listener del botón para mostrar todas las aulas
         btnMostrarAulas.setOnClickListener {
-            val aulas = mostrarTodasLasAulas()
+            mostrarTodasLasAulas()
+        }
+    }
+    private fun buscarAulaPorId(id: Int, callback: (Aula?) -> Unit){
+        dbHelper.getAulaByIdFirebase(id) { aulas ->
+            if (aulas.isNotEmpty()) {
+                // Solo debe haber un aula con este ID, así que tomamos el primero
+                callback(aulas[0])
+            } else {
+                callback(null)
+            }
+        }
+    }
+
+    private fun mostrarTodasLasAulas(){
+        dbHelper.getAllAulasFromFirebase { aulas ->
             if (aulas.isNotEmpty()) {
                 mostrarDetallesAula(aulas)
             } else {
                 Toast.makeText(this, "No hay aulas registradas", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun buscarAulaPorId(id: Int): Aula? {
-        return dbHelper.getAulaById(id)
-    }
-
-    private fun mostrarTodasLasAulas(): List<Aula> {
-        return dbHelper.getAllAulas()
     }
 
     private fun addAulaToSQLite(aula: Aula) {
@@ -117,7 +127,6 @@ class Add_Aula : AppCompatActivity() {
             Toast.makeText(this, "Error al agregar el Aula a SQLite", Toast.LENGTH_SHORT).show()
         }
     }
-
     private fun addAulaToFirebase(aula: Aula) {
         firebaseCounterDb.child("aulas").get().addOnSuccessListener { snapshot ->
             var newId = 1
@@ -141,7 +150,6 @@ class Add_Aula : AppCompatActivity() {
             Toast.makeText(this, "Error al obtener el contador de Firebase: ${exception.message}", Toast.LENGTH_SHORT).show()
         }
     }
-
     private fun mostrarDetallesAula(aulas: List<Aula>) {
         // Limpiar la tabla antes de agregar nuevas filas
         tblAulaDetails.removeAllViews()
@@ -190,5 +198,59 @@ class Add_Aula : AppCompatActivity() {
             tblAulaDetails.addView(row)
         }
     }
+    private fun mostrarDetallesAulaID(aula: Aula) {
+        // Limpiar la tabla antes de agregar nuevas filas
+        tblAulaDetails.removeAllViews()
 
+        // Agregar la fila de encabezados de la tabla
+        val headerRow = TableRow(this)
+        headerRow.layoutParams = TableRow.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        headerRow.setBackgroundColor(Color.GRAY)
+
+        val headers = arrayOf("ID", "Edificio", "Nombre", "Status")
+        headers.forEach { header ->
+            val textView = TextView(this).apply {
+                text = header
+                setPadding(8, 8, 8, 8)
+                setTextColor(Color.WHITE)
+                gravity = Gravity.CENTER
+                layoutParams = TableRow.LayoutParams(
+                    0,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1f
+                ) // Distribuye uniformemente el ancho
+            }
+            headerRow.addView(textView)
+        }
+
+        tblAulaDetails.addView(headerRow)
+
+        // Agregar la fila de detalles del aula
+        val row = TableRow(this)
+        row.layoutParams = TableRow.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        row.setBackgroundColor(Color.WHITE)
+
+        val details =
+            arrayOf(aula.idLab.toString(), aula.edificio, aula.nombre, aula.status.toString())
+        details.forEach { detail ->
+            val textView = TextView(this).apply {
+                text = detail
+                setPadding(8, 8, 8, 8)
+                gravity = Gravity.CENTER
+                layoutParams = TableRow.LayoutParams(
+                    0,
+                    TableRow.LayoutParams.WRAP_CONTENT,
+                    1f
+                ) // Distribuye uniformemente el ancho
+            }
+            row.addView(textView)
+        }
+        tblAulaDetails.addView(row)
+    }
 }

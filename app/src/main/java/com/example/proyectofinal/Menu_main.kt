@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import android.widget.Button
+//import com.example.proyectofinal.database.Historial
 
 class Menu_main : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +24,7 @@ class Menu_main : AppCompatActivity() {
 
         // Configurar los botones
         val historialButton: Button = findViewById(R.id.historialButton)
+        val componenteButton: Button = findViewById(R.id.componenteButton)
         val anadirAulaButton: Button = findViewById(R.id.anadirAulaButton)
         val anadirCategoriaButton: Button = findViewById(R.id.anadirCategoriaButton)
         val anadirPropietarioButton: Button = findViewById(R.id.anadirPropietarioButton)
@@ -31,7 +33,12 @@ class Menu_main : AppCompatActivity() {
         // Configurar acciones de los botones
         historialButton.setOnClickListener {
             // Navegar a la actividad de Historial
-            val intent = Intent(this, Historial::class.java)
+            val intent = Intent(this, HistorialActivity::class.java)
+            startActivity(intent)
+        }
+        componenteButton.setOnClickListener {
+            // Navegar a la actividad de Historial
+            val intent = Intent(this, Add_Componente::class.java)
             startActivity(intent)
         }
 

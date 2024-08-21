@@ -6,4 +6,30 @@
     </style>
 
     <style name="Theme.ProyectoFinal" parent="Base.Theme.ProyectoFinal" />
+    <style name="Theme.MyApp" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary color -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/onPrimaryColor</item>
+
+        <!-- Secondary color -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/onSecondaryColor</item>
+
+        <!-- Tertiary color -->
+        <item name="colorTertiary">@color/tertiaryColor</item>
+        <item name="colorOnTertiary">@color/onTertiaryColor</item>
+
+        <!-- Surface color -->
+        <item name="colorSurface">@color/surfaceColor</item>
+        <item name="colorOnSurface">@color/onSurfaceColor</item>
+
+        <!-- Background color -->
+        <item name="colorOnBackground">@color/onBackgroundColor</item>
+
+        <!-- Error color -->
+        <item name="colorError">@color/errorColor</item>
+        <item name="colorOnError">@color/onErrorColor</item>
+    </style>
 </resources>

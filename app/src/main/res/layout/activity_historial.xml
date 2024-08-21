@@ -1,114 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Campo para ingresar el ID a buscar -->
-    <LinearLayout
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/tv_title_historial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp">
+        android:text="Detalles del Historial"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/blue_dark_background"
+        android:layout_marginBottom="24dp" />
 
-        <EditText
-            android:id="@+id/etBuscarId"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Escribe el ID a buscar"
-            android:inputType="number"
-            android:padding="8dp"
-            android:textSize="14sp" />
+    <!-- EditText to input Historial ID -->
+    <EditText
+        android:id="@+id/et_historial_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID del Historial"
+        android:inputType="number"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/blue_f_light"
+        android:textColor="@color/blue_dark_background"/>
 
-        <Button
-            android:id="@+id/btnBuscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Buscar"
-            android:backgroundTint="@android:color/black"
-            android:textColor="@android:color/white"
-            android:padding="8dp" />
-        <Button
-            android:id="@+id/btnModificar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Modificar"
-            android:textColor="@android:color/white"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>
+    <!-- Button to search for Historial by ID -->
+    <Button
+        android:id="@+id/btn_buscar_historial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Buscar Historial por ID"
+        android:textColor="@color/blue_text"
+        android:backgroundTint="@color/blue_primary"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Tabla de historial -->
+    <!-- Button to show all Historials -->
+    <Button
+        android:id="@+id/btn_mostrar_historial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mostrar Todos los Historiales"
+        android:textColor="@color/blue_text"
+        android:backgroundTint="@color/blue_primary"
+        android:layout_marginBottom="24dp" />
+
+    <!-- ScrollView for Historial details -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:layout_marginBottom="24dp">
 
+        <!-- TableLayout to display Historial details -->
         <TableLayout
-            android:id="@+id/tableLayoutHistorial"
+            android:id="@+id/tbl_historial_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stretchColumns="1"
-            android:padding="8dp">
+            android:padding="10dp">
 
-            <!-- Encabezado de la tabla -->
-            <TableRow
-                android:background="@android:color/darker_gray"
-                android:padding="6dp">
+            <!-- Table Row for Headers -->
+            <TableRow>
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.5"
-                    android:text="ID"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:text="Aula"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:background="@color/gray_primary"
+                    android:textColor="@color/blue_text" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
                     android:text="Categ."
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:background="@color/gray_primary"
+                    android:textColor="@color/blue_text" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:text="Componente"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:background="@color/gray_primary"
+                    android:textColor="@color/blue_text" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:text="Fecha"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:background="@color/gray_primary"
+                    android:textColor="@color/blue_text" />
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     android:layout_weight="1"
                     android:text="Hora"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Status"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:background="@color/gray_primary"
+                    android:textColor="@color/blue_text" />
             </TableRow>
 
-            <!-- Fila de datos -->
-            <!-- Las filas se agregarán dinámicamente en tiempo de ejecución -->
+            <!-- Example Row for Historial details, this will be dynamically populated -->
+            <!-- Add rows dynamically here -->
 
         </TableLayout>
     </ScrollView>
+
+    <!-- Button to go back -->
+    <Button
+        android:id="@+id/btn_regresar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Regresar"
+        android:textColor="@color/blue_text"
+        android:backgroundTint="@color/blue_primary" />
+
 </LinearLayout>
